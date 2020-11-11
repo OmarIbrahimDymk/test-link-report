@@ -1,18 +1,22 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-container>
+    <h1 class="display-2 font-weight-bold mb-3">TestLink Reports</h1>
+    <hr />
+    <TCExecutionNotes />
+    <TCStepExecutionNotes />
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import TCExecutionNotes from "@/components/TCExecutionNotes.vue";
+import TCStepExecutionNotes from "@/components/TCStepExecutionNotes.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    TCExecutionNotes,
+    TCStepExecutionNotes,
+  },
+};
 </script>
