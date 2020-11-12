@@ -12,7 +12,7 @@
       <v-data-table
         dense
         :headers="headers"
-        :items="executions"
+        :items="tableData"
         item-key="name"
         class="elevation-1"
       ></v-data-table>
@@ -21,13 +21,16 @@
 </template>
 
 <script>
+import cleanDataMixin from "@/mixins/cleanDataMixin.js";
 import jsonexport from "jsonexport";
 
 export default {
   name: "TCExecutionNotes",
+  mixins: [cleanDataMixin],
 
   data: () => ({
     executions: [],
+    tableData: [],
     headers: [
       {
         text: "tester",
@@ -49,6 +52,19 @@ export default {
     let response = await fetch("/api/executionNotes");
     let data = await response.json();
     this.executions = data;
+
+    this.tableData = this.cleanData(this.executions);
+  },
+
+  methods: {
+    cleanData(originalData) {
+      let cleanedData = originalData;
+      cleanedData.forEach((data) => {
+        this.removeTag(data, "Test Plan", "p");
+      });
+      this.canDownload = false;
+      return cleanedData;
+    },
     downloadCSV() {
       jsonexport(this.tableData, (err, csv) => {
         if (err) return console.error(err);
