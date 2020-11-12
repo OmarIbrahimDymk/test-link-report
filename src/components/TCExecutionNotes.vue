@@ -2,6 +2,13 @@
   <v-row>
     <v-col class="mb-4">
       <h2>Test Case Execution Notes</h2>
+      <v-btn
+        class="mt-2"
+        :disabled="canDownload"
+        @click="downloadCSV"
+        color="primary"
+        >Export</v-btn
+      >
       <v-data-table
         dense
         :headers="headers"
@@ -14,6 +21,8 @@
 </template>
 
 <script>
+import jsonexport from "jsonexport";
+
 export default {
   name: "TCExecutionNotes",
 
@@ -33,13 +42,34 @@ export default {
       { text: "id", value: "tc_external_id" },
       { text: "tester", value: "tester" },
     ],
+    canDownload: true,
   }),
 
   async created() {
     let response = await fetch("/api/executionNotes");
     let data = await response.json();
     this.executions = data;
-    console.log("executionNotes: ", this.executions);
+    downloadCSV() {
+      jsonexport(this.tableData, (err, csv) => {
+        if (err) return console.error(err);
+        this.download(`${"TCExecutionNotes"}-${Date.now()}.csv`, csv);
+      });
+    },
+    download(filename, text) {
+      let element = document.createElement("a");
+      element.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+      );
+      element.setAttribute("download", filename);
+
+      element.style.display = "none";
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    },
   },
 };
 </script>
