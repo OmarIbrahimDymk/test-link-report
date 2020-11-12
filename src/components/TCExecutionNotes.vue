@@ -33,11 +33,12 @@ export default {
     tableData: [],
     headers: [
       {
-        text: "tester",
+        text: "No.",
         align: "start",
         sortable: false,
-        value: "tester",
+        value: "index",
       },
+      { text: "tester", value: "tester" },
       { text: "notes", value: "notes" },
       { text: "id", value: "tc_external_id" },
       { text: "Test Case", value: "Test Case" },
@@ -59,8 +60,9 @@ export default {
   methods: {
     cleanData(originalData) {
       let cleanedData = originalData;
-      cleanedData.forEach((data) => {
+      cleanedData.forEach((data, index) => {
         this.removeTag(data, "Test Plan", "p");
+        data.index = index + 1;
       });
       this.canDownload = false;
       return cleanedData;

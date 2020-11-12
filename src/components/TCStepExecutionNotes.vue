@@ -33,11 +33,12 @@ export default {
     tableData: [],
     headers: [
       {
-        text: "tester",
+        text: "No.",
         align: "start",
         sortable: false,
-        value: "tester",
+        value: "index",
       },
+      { text: "execution note", value: "execution note" },
       { text: "execution note", value: "execution note" },
       { text: "action", value: "action" },
       { text: "expected result", value: "expected result" },
@@ -66,10 +67,11 @@ export default {
   methods: {
     async cleanData(originalData) {
       let cleanedData = originalData;
-      cleanedData.forEach((data) => {
+      cleanedData.forEach((data, index) => {
         this.removeTag(data, "Test Plan", "p");
         this.cleanColumn(data, "action");
         this.cleanColumn(data, "expected result");
+        data.index = index + 1;
       });
       return cleanedData;
     },
