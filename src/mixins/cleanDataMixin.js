@@ -10,6 +10,12 @@ export default {
                 case 'emstrong':
                     data[props] = data[props].replace(/<em><strong>/g, " ");
                     data[props] = data[props].replace(/<\/strong><\/em>/g, " ");
+
+                    data[props] = data[props].replace(/<strong><em>/g, " ");
+                    data[props] = data[props].replace(/<\/em><\/strong>/g, " ");
+
+                    data[props] = data[props].replace(/<strong>/g, " ");
+                    data[props] = data[props].replace(/<\/strong>/g, " ");
                     break;
 
                 case 'quote':
